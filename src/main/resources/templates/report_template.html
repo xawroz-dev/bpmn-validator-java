@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BPMN Validation Report</title>
+    <!-- Include your styles and scripts -->
+</head>
+<body>
+<h1>BPMN Validation Report</h1>
+
+<h2>Summary</h2>
+<table>
+    <tr>
+        <th>Issue Type</th>
+        <th>Count</th>
+    </tr>
+    <tr>
+        <td>Default Service Task Names</td>
+        <td>${results.defaultNameIssues?size}</td>
+    </tr>
+    <tr>
+        <td>Variable Name Issues</td>
+        <td>${results.variableNameIssues?size}</td>
+    </tr>
+</table>
+
+<h2>Default Service Task Names</h2>
+<#if results.defaultNameIssues?size > 0>
+<table>
+    <tr>
+        <th>BPMN File</th>
+        <th>Task ID</th>
+        <th>Task Name</th>
+        <th>Issue</th>
+    </tr>
+    <#list results.defaultNameIssues as task>
+    <tr>
+        <td>${task.fileName}</td>
+        <td>${task.id}</td>
+        <td>${task.name}</td>
+        <td>Default service task ID used.</td>
+    </tr>
+</#list>
+</table>
+<#else>
+<p>No issues found with service task names.</p>
+</#if>
+
+<h2>Variable Name Issues</h2>
+<#if results.variableNameIssues?size > 0>
+<table>
+    <tr>
+        <th>BPMN File</th>
+        <th>Task ID</th>
+        <th>Task Name</th>
+        <th>Variable</th>
+        <th>Suggestion</th>
+    </tr>
+    <#list results.variableNameIssues as issue>
+    <tr>
+        <td>${issue.task.fileName}</td>
+        <td>${issue.task.id}</td>
+        <td>${issue.task.name}</td>
+        <td>${issue.variable}</td>
+        <td>${issue.suggestion}</td>
+    </tr>
+</#list>
+</table>
+<#else>
+<p>No issues found with variable names.</p>
+</#if>
+</body>
+</html>
