@@ -60,9 +60,5 @@
 
   </bpmn2:process>
 
-  <!-- BPMN Diagram (optional, can be omitted if not needed) -->
-  <bpmn2:diagram id="BPMNDiagram_1">
-    <!-- Diagram elements would go here -->
-  </bpmn2:diagram>
 
 </bpmn2:definitions>

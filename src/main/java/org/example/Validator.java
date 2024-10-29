@@ -59,6 +59,7 @@ public class Validator {
 
         for (String approvedVar : approvedVariables) {
             int score = fuzzyScore.fuzzyScore(variable, approvedVar);
+            System.out.println(score + " " + variable + " " + approvedVar);
             if (score > highestScore && score >= threshold) {
                 highestScore = score;
                 closestMatch = approvedVar;

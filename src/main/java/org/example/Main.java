@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             // Load configuration
-            Config config = new Config("C:\\Users\\admin\\IdeaProjects\\bpmn-analyze\\src\\main\\resources\\config.yaml");
+            Config config = new Config("config.yaml");
 
             // Parse BPMN files
             BPMNParser parser = new BPMNParser();

@@ -1,72 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>BPMN Validation Report</title>
-    <!-- Include your styles and scripts -->
+    <!-- Include Bootstrap CSS via CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Optional Bootstrap theme -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/cerulean/bootstrap.min.css"> -->
+    <!-- Custom CSS -->
+    <style>
+        body {
+            padding-top: 20px;
+        }
+        .summary-table th, .summary-table td {
+            text-align: center;
+        }
+        .issue-table th, .issue-table td {
+            vertical-align: middle;
+        }
+        .no-issues {
+            text-align: center;
+            font-style: italic;
+            color: #28a745;
+        }
+        .issue-section {
+            margin-top: 40px;
+        }
+        .issue-header {
+            margin-bottom: 20px;
+        }
+        .table th {
+            background-color: #f8f9fa;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .badge {
+            font-size: 100%;
+        }
+    </style>
 </head>
 <body>
-<h1>BPMN Validation Report</h1>
+<div class="container">
+    <h1 class="text-center">BPMN Validation Report</h1>
 
-<h2>Summary</h2>
-<table>
-    <tr>
-        <th>Issue Type</th>
-        <th>Count</th>
-    </tr>
-    <tr>
-        <td>Default Service Task Names</td>
-        <td>${results.defaultNameIssues?size}</td>
-    </tr>
-    <tr>
-        <td>Variable Name Issues</td>
-        <td>${results.variableNameIssues?size}</td>
-    </tr>
-</table>
+    <div class="issue-section">
+        <h2 class="issue-header">Summary</h2>
+        <table class="table table-bordered summary-table">
+            <thead class="thead-light">
+            <tr>
+                <th>Issue Type</th>
+                <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Default Service Task Names</td>
+                <td><span class="badge badge-pill badge-primary">${results.defaultNameIssues?size}</span></td>
+            </tr>
+            <tr>
+                <td>Variable Name Issues</td>
+                <td><span class="badge badge-pill badge-primary">${results.variableNameIssues?size}</span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-<h2>Default Service Task Names</h2>
-<#if results.defaultNameIssues?size > 0>
-<table>
-    <tr>
-        <th>BPMN File</th>
-        <th>Task ID</th>
-        <th>Task Name</th>
-        <th>Issue</th>
-    </tr>
-    <#list results.defaultNameIssues as task>
-    <tr>
-        <td>${task.fileName}</td>
-        <td>${task.id}</td>
-        <td>${task.name}</td>
-        <td>Default service task ID used.</td>
-    </tr>
-</#list>
-</table>
-<#else>
-<p>No issues found with service task names.</p>
+    <div class="issue-section">
+        <h2 class="issue-header">Default Service Task Names</h2>
+        <#if results.defaultNameIssues?size gt 0>
+        <table class="table table-striped table-hover table-bordered issue-table">
+            <thead class="thead-light">
+            <tr>
+                <th>BPMN File</th>
+                <th>Task ID</th>
+                <th>Task Name</th>
+                <th>Issue</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list results.defaultNameIssues as task>
+            <tr>
+                <td>${task.fileName}</td>
+                <td>${task.id}</td>
+                <td>${task.name}</td>
+                <td>Default service task ID used.</td>
+            </tr>
+            </#list>
+            </tbody>
+        </table>
+        <#else>
+        <p class="no-issues">No issues found with service task names.</p>
+    </#if>
+</div>
+
+<div class="issue-section">
+    <h2 class="issue-header">Variable Name Issues</h2>
+    <#if results.variableNameIssues?size gt 0>
+    <table class="table table-striped table-hover table-bordered issue-table">
+        <thead class="thead-light">
+        <tr>
+            <th>BPMN File</th>
+            <th>Task ID</th>
+            <th>Task Name</th>
+            <th>Variable</th>
+            <th>Suggestion</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#list results.variableNameIssues as issue>
+        <tr>
+            <td>${issue.task.fileName}</td>
+            <td>${issue.task.id}</td>
+            <td>${issue.task.name}</td>
+            <td>${issue.variable}</td>
+            <td>${issue.suggestion}</td>
+        </tr>
+        </#list>
+        </tbody>
+    </table>
+    <#else>
+    <p class="no-issues">No issues found with variable names.</p>
 </#if>
+</div>
+</div>
 
-<h2>Variable Name Issues</h2>
-<#if results.variableNameIssues?size > 0>
-<table>
-    <tr>
-        <th>BPMN File</th>
-        <th>Task ID</th>
-        <th>Task Name</th>
-        <th>Variable</th>
-        <th>Suggestion</th>
-    </tr>
-    <#list results.variableNameIssues as issue>
-    <tr>
-        <td>${issue.task.fileName}</td>
-        <td>${issue.task.id}</td>
-        <td>${issue.task.name}</td>
-        <td>${issue.variable}</td>
-        <td>${issue.suggestion}</td>
-    </tr>
-</#list>
-</table>
-<#else>
-<p>No issues found with variable names.</p>
-</#if>
+<!-- Include Bootstrap JS and dependencies via CDN (Optional if not needed) -->
+<!--
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+-->
 </body>
 </html>
